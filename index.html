@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
 </head>
 
 <body>
@@ -28,11 +29,11 @@
                 <input type="text" id="display" name="display" class="pr-3 text-right" placeholder="0" />
                 <br />
                 <div class="sub_input">
-                    <input class="pr-3 text-right" id="sub_display" />
+                    <input class="pr-3 text-right" id="sub_display" onclick="Review()" />
                 </div>
             </div>
 
-            <button class="btn btn-top">DEG</button>
+            <div class="btn" id="deg" onclick="deg_rad()">DEG</div>
             <button class="btn btn-top">F-E</button>
             <br />
             <button class="btn btn-top text-muted">MC</button>
@@ -47,12 +48,11 @@
                     Δ Trigonometry <i class="fal fa-angle-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a> sin </a>
-                    <a> cos </a>
-                    <a> tan </a>
-                    <a> asin </a>
-                    <a> acosh </a>
-                    <a> atan </a>
+                    <a class="trigino_&_Fun"> sin </a>
+                    <a class="trigino_&_Fun"> cos </a>
+                    <a class="trigino_&_Fun"> tan </a>
+                    <a class="trigino_&_Fun"> asin </a>
+                    <a class="trigino_&_Fun"> atan </a>
                 </div>
             </div>
             <div class="dropdown">
@@ -60,9 +60,9 @@
                     ƒ Fuction <i class="fal fa-angle-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a> ceil </a>
-                    <a> floor </a>
-                    <a> random </a>
+                    <a class="trigino_&_Fun"> ceil </a>
+                    <a class="trigino_&_Fun"> floor </a>
+                    <a class="trigino_&_Fun"> round </a>
                 </div>
             </div>
             <br />
@@ -70,7 +70,7 @@
             <button class="btn btn-light">π</button>
             <button class="btn btn-light">e</button>
             <button class="btn btn-light">C</button>
-            <button class="btn btn-light"><i class="far fa-backspace"></i></button>
+            <button class="btn btn-light" onclick="del()"><i class="far fa-backspace"></i></button>
             <br />
             <button class="btn btn-light">x<sup>2</sup></button>
             <button class="btn btn-light"><sup>1</sup>/x</button>
@@ -85,29 +85,32 @@
             <button class="btn btn-light">÷</button>
             <br />
             <button class="btn btn-light">x<sup>y</sup></button>
-            <button class="btn bg-white">7</button>
-            <button class="btn bg-white">8</button>
-            <button class="btn bg-white">9</button>
+            <button class="btn btn-number">7</button>
+            <button class="btn btn-number">8</button>
+            <button class="btn btn-number">9</button>
             <button class="btn btn-light">×</button>
             <br />
             <button class="btn btn-light">10<sup>x</sup></button>
-            <button class="btn bg-white">4</button>
-            <button class="btn bg-white">5</button>
-            <button class="btn bg-white">6</button>
+            <button class="btn btn-number">4</button>
+            <button class="btn btn-number">5</button>
+            <button class="btn btn-number">6</button>
             <button class="btn btn-light">-</button>
             <br />
             <button class="btn btn-light">log</button>
-            <button class="btn bg-white">1</button>
-            <button class="btn bg-white">2</button>
-            <button class="btn bg-white">3</button>
+            <button class="btn btn-number">1</button>
+            <button class="btn btn-number">2</button>
+            <button class="btn btn-number">3</button>
             <button class="btn btn-light">+</button>
             <br />
             <button class="btn btn-light">ln</button>
             <button class="btn bg-white"><sup>+</sup>/-</button>
-            <button class="btn bg-white">0</button>
+            <button class="btn btn-number">0</button>
             <button class="btn bg-white">.</button>
             <button class="btn btn-light">=</button>
         </div>
     </div>
+
+    <script src="S_calculator.js"></script>
 </body>
+
 </html>
