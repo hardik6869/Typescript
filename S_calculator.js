@@ -1,75 +1,82 @@
-var res = {};
-res.display = document.getElementById("display");
-res.s_display = document.getElementById("sub_display");
+var display = document.getElementById("display");
+var s_display = document.getElementById("sub_display");
 var buttons = Array.from(document.getElementsByClassName("btn"));
 var btn_sci = Array.from(document.getElementsByClassName("trigino_&_Fun"));
 var memory_btn = Array.from(document.getElementsByClassName("btn-top"));
+var square = document.getElementById("square");
+var sq_root = document.getElementById("sq_root");
+var x_root_y = document.getElementById("x_root_y");
+var ten_x = document.getElementById("ten_x");
+var log = document.getElementById("log");
 // Functions
 var arr_list = [];
 function memory(m_fun, data) {
     if (m_fun == "M+") {
         arr_list.push(data);
-        res.display.value = data;
-        res.s_display.value = "M+(".concat(res.display.value, ")");
+        display.value = String(data);
+        s_display.value = "M+(".concat(display.value, ")");
     }
     else if (m_fun == "M-") {
         arr_list.push(eval("-" + data));
-        res.display.value = data;
-        res.s_display.value = "M-(".concat(res.display.value, ")");
+        display.value = String(data);
+        s_display.value = "M-(".concat(display.value, ")");
     }
     else if (m_fun == "MS") {
         arr_list.push(data);
-        res.display.value = arr_list;
-        res.s_display.value = "MS(".concat(res.display.value, ")");
+        display.value = String(arr_list);
+        s_display.value = "MS(".concat(display.value, ")");
     }
     else if (m_fun == "MC") {
         arr_list = [];
-        res.display.value = arr_list;
-        res.s_display.value = "MC";
+        display.value = String(arr_list);
+        s_display.value = "MC";
     }
     else {
         var add_data_1 = 0;
         arr_list.forEach(function (data) {
-            add_data_1 += data;
+            add_data_1 += Number(data);
         });
-        res.display.value = add_data_1;
-        res.s_display.value = "MR(".concat(res.display.value, ")");
+        display.value = String(add_data_1);
+        s_display.value = "MR(".concat(display.value, ")");
     }
 }
 var deg_rad = function () {
     var val = document.getElementById("deg");
-    var convert = res.display.value;
-    if (res.display.value !== "0" && res.display.value !== "") {
+    var convert = display.value;
+    if (display.value !== "0" && display.value !== "") {
         if (val.innerText == "DEG") {
-            res.s_display.value = "Deg (".concat(res.display.value, ")");
+            s_display.value = "Deg (".concat(display.value, ")");
             val.innerText = "RAD";
-            res.display.value = convert * (180 / Math.PI);
+            display.value = String(Number(convert) * (180 / Math.PI));
         }
         else {
             val.innerText = "DEG";
-            res.s_display.value = "Rad (".concat(res.display.value, ")");
-            res.display.value = convert * (Math.PI / 180);
+            s_display.value = "Rad (".concat(display.value, ")");
+            display.value = String(Number(convert) * (Math.PI / 180));
         }
     }
 };
-// let valid: boolean = true;
-// const More_features = () => {
-//   if (valid) {
-//       (buttons.innerHTML= "x<sup>3</sup>"),
-//       (randomvar.innerHTML = "<sup>3</sup>√x"),
-//       (randompow.innerHTML = "2<sup>x</sup>"),
-//       (randomlog.innerHTML = "e<sup>x</sup>");
-//     valid = false;
-//   } else {
-//     valid = true;
-//       (random.innerHTML = "x<sup>2</sup>"),
-//       (randomvar.innerHTML = "<sup>2</sup>√x"),
-//       (randompow.innerHTML = "10<sup>x</sup>"),
-//       (randomlog.innerHTML = "ln");
-//   }
-// }
+var valid = true;
+var More_features = function () {
+    if (valid) {
+        square.innerHTML = "x<sup>3</sup>";
+        sq_root.innerHTML = "<sup>3</sup>√x";
+        x_root_y.innerHTML = "2<sup>x</sup>";
+        ten_x.innerHTML = "e<sup>x</sup>";
+        log.innerHTML = "3<sup>x</sup>";
+        valid = false;
+    }
+    else {
+        valid = true;
+        square.innerHTML = "x<sup>2</sup>";
+        sq_root.innerHTML = "<sup>2</sup>√x";
+        x_root_y.innerHTML = "x<sup>y</sup>";
+        ten_x.innerHTML = "10<sup>x</sup>";
+        log.innerHTML = "log";
+    }
+};
 var Review = function () {
-    res.display.value = res.s_display.value;
+    display.value = s_display.value;
 };
 var factorial = function (num) {
     var fact = 1;
@@ -79,16 +86,26 @@ var factorial = function (num) {
     return fact;
 };
 var del = function () {
-    res.s_display.value = "";
-    var dele = res.display.value;
-    res.display.value = dele.substring(0, dele.length - 1);
+    s_display.value = "";
+    var dele = display.value;
+    display.value = dele.substring(0, dele.length - 1);
 };
-var check = function (val) {
+var check = function (val, eve) {
     var isvalid;
-    var char_list = ["+", "-", "/", "*", "%", "!", "^", "|x|", "π", "e"];
-    var last_char = val.charAt(val.length - 1);
-    if (res.display.value !== "0" && res.display.value !== "") {
-        if (char_list.includes(last_char)) {
+    var cur_Value = display.value;
+    var last_char = cur_Value[cur_Value.length - 1];
+    if (display.value !== "0" && display.value !== "") {
+        if (last_char === "+" ||
+            last_char === "-" ||
+            last_char === "/" ||
+            last_char === "*" ||
+            last_char === "%" ||
+            last_char === "!" ||
+            last_char === "^" ||
+            last_char === "e" ||
+            last_char === "e") {
+            var assign = cur_Value.substring(0, cur_Value.length - 1) + eve;
+            display.value = assign;
             isvalid = false;
         }
         else {
@@ -100,61 +117,62 @@ var check = function (val) {
 // Mapping a buttons and perform particuler button task
 memory_btn.map(function (value) {
     value.addEventListener("click", function (e) {
-        switch (e.target.innerText) {
-            case "MC":
-                console.log("MC");
-                memory("MC", eval(res.display.value));
-                break;
-            case "MR":
-                memory("MR", eval(res.display.value));
-                break;
-            case "M+":
-                memory("M+", eval(res.display.value));
-                break;
-            case "M-":
-                memory("M-", eval(res.display.value));
-                break;
-            case "MS":
-                memory("MS", eval(res.display.value));
-                break;
+        if (display.value !== "0" && display.value !== "") {
+            switch (e.target.innerText) {
+                case "MC":
+                    memory("MC", eval(display.value));
+                    break;
+                case "MR":
+                    memory("MR", eval(display.value));
+                    break;
+                case "M+":
+                    memory("M+", eval(display.value));
+                    break;
+                case "M-":
+                    memory("M-", eval(display.value));
+                    break;
+                case "MS":
+                    memory("MS", eval(display.value));
+                    break;
+            }
         }
     });
 });
 btn_sci.map(function (value) {
     value.addEventListener("click", function (e) {
-        if (res.display.value !== "0" && res.display.value !== "") {
+        if (display.value !== "0" && display.value !== "") {
             switch (e.target.innerText) {
                 case "sin":
-                    res.s_display.value = "sin(".concat(res.display.value, ")");
-                    res.display.value = Math.sin(res.display.value);
+                    s_display.value = "sin(".concat(display.value, ")");
+                    display.value = String(Math.sin(Number(display.value)));
                     break;
                 case "cos":
-                    res.s_display.value = "cos(".concat(res.display.value, ")");
-                    res.display.value = Math.cos(res.display.value);
+                    s_display.value = "cos(".concat(display.value, ")");
+                    display.value = String(Math.cos(Number(display.value)));
                     break;
                 case "tan":
-                    res.s_display.value = "tan(".concat(res.display.value, ")");
-                    res.display.value = Math.tan(res.display.value);
+                    s_display.value = "tan(".concat(display.value, ")");
+                    display.value = String(Math.tan(Number(display.value)));
                     break;
                 case "asin":
-                    res.s_display.value = "asin(".concat(res.display.value, ")");
-                    res.display.value = Math.asin(res.display.value);
+                    s_display.value = "asin(".concat(display.value, ")");
+                    display.value = String(Math.asin(Number(display.value)));
                     break;
                 case "atan":
-                    res.s_display.value = "atan(".concat(res.display.value, ")");
-                    res.display.value = Math.atan(res.display.value);
+                    s_display.value = "atan(".concat(display.value, ")");
+                    display.value = String(Math.atan(Number(display.value)));
                     break;
                 case "ceil":
-                    res.s_display.value = "ceil(".concat(res.display.value, ")");
-                    res.display.value = Math.ceil(res.display.value);
+                    s_display.value = "ceil(".concat(display.value, ")");
+                    display.value = String(Math.ceil(Number(display.value)));
                     break;
                 case "floor":
-                    res.s_display.value = "floor(".concat(res.display.value, ")");
-                    res.display.value = Math.floor(res.display.value);
+                    s_display.value = "floor(".concat(display.value, ")");
+                    display.value = String(Math.floor(Number(display.value)));
                     break;
                 case "round":
-                    res.s_display.value = "round(".concat(res.display.value, ")");
-                    res.display.value = Math.round(res.display.value);
+                    s_display.value = "round(".concat(display.value, ")");
+                    display.value = String(Math.round(Number(display.value)));
                     break;
             }
         }
@@ -164,154 +182,184 @@ buttons.map(function (value) {
     value.addEventListener("click", function (e) {
         switch (e.target.innerText) {
             case "=":
-                res.s_display.value = "".concat(res.display.value);
-                if (res.display.value.charAt(res.display.value.length - 1) == "!") {
-                    res.display.value = res.display.value.substring(0, res.display.value.length - 1);
-                    res.display.value.value = factorial(res.display.value);
+                s_display.value = "".concat(display.value);
+                if (display.value.charAt(display.value.length - 1) == "!") {
+                    display.value = display.value.substring(0, display.value.length - 1);
+                    display.value = String(factorial(Number(display.value)));
                 }
-                if (res.display.value.includes("^")) {
-                    var sign = res.display.value.indexOf("^");
-                    var x = res.display.value.substring(0, sign);
-                    var y = res.display.value.substring(sign + 1, res.display.value.length);
-                    res.display.value = Math.pow(x, y);
+                if (display.value.includes("^")) {
+                    var sign = display.value.indexOf("^");
+                    var x = display.value.substring(0, sign);
+                    var y = display.value.substring(sign + 1, display.value.length);
+                    display.value = String(Math.pow(Number(x), Number(y)));
                 }
-                res.display.value = eval(res.display.value);
+                display.value = eval(display.value);
                 break;
             case "F-E":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "F-E (".concat(res.display.value, ")");
-                    var num = parseFloat(res.display.value);
-                    res.display.value = num.toExponential();
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "F-E (".concat(display.value, ")");
+                    var num = parseFloat(display.value);
+                    display.value = num.toExponential();
                 }
                 break;
             case "C":
-                res.s_display.value = "";
-                res.display.value = "";
+                s_display.value = "";
+                display.value = "";
                 break;
             case "n!":
-                if (check(res.display.value.innerHTML)) {
-                    res.display.value += "!";
-                }
-                break;
-            case "xy":
-                if (check(res.display.value)) {
-                    res.display.value += "^";
+                if (check(display.value, "!")) {
+                    display.value += "!";
                 }
                 break;
             case "^":
-                if (check(res.display.value)) {
-                    res.display.value = res.display.value.slice(0, -1);
+                if (check(display.value, "^")) {
+                    display.value = display.value.slice(0, -1);
                 }
                 break;
             case "+":
-                if (check(res.display.value)) {
-                    res.display.value = res.display.value + "+";
+                if (check(display.value, e.target.innerText)) {
+                    display.value = display.value + "+";
                 }
                 break;
             case "-":
-                if (check(res.display.value)) {
-                    res.display.value = res.display.value + "-";
+                if (check(display.value, e.target.innerText)) {
+                    display.value = display.value + "-";
                 }
                 break;
             case "×":
-                if (check(res.display.value)) {
-                    res.display.value = res.display.value + "*";
+                if (check(display.value, "*")) {
+                    display.value = display.value + "*";
                 }
                 break;
             case "÷":
-                if (check(res.display.value)) {
-                    res.display.value = res.display.value + "/";
+                if (check(display.value, "/")) {
+                    display.value = display.value + "/";
                 }
                 break;
             case "+/-":
-                if (res.display.value > 0) {
-                    res.display.value = "-".concat(res.display.value);
+                if (Number(display.value) > 0) {
+                    display.value = "-".concat(display.value);
                 }
                 else {
-                    res.display.value = Math.abs(res.display.value);
+                    display.value = String(Math.abs(Number(display.value)));
                 }
                 break;
             case "π":
-                if (check(res.display.value)) {
-                    res.s_display.value = "".concat(res.display.value, "\u00D7\u03C0");
-                    res.display.value = res.display.value * Math.PI;
+                if (check(display.value, "π")) {
+                    s_display.value = "".concat(display.value, "\u00D7\u03C0");
+                    display.value = String(Number(display.value) * Math.PI);
                 }
                 break;
             case "e":
-                if (check(res.display.value)) {
-                    res.s_display.value = "".concat(res.display.value, "\u00D7e");
-                    res.display.value = res.display.value * Math.E;
+                if (check(display.value, "e")) {
+                    s_display.value = "".concat(display.value, "\u00D7e");
+                    display.value = String(Number(display.value) * Math.E);
                 }
                 break;
             case "|x|":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "| ".concat(res.display.value, " | ");
-                    res.display.value = Math.abs(res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "| ".concat(display.value, " | ");
+                    display.value = String(Math.abs(Number(display.value)));
                     ("");
                 }
                 break;
             case "2√x":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "2\u221Ax".concat(res.display.value);
-                    res.display.value = Math.sqrt(res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "2\u221Ax".concat(display.value);
+                    display.value = String(Math.sqrt(Number(display.value)));
+                }
+                break;
+            case "3√x":
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "3\u221A".concat(display.value);
+                    display.value = String(Math.pow(Number(display.value), 1 / 3));
                 }
                 break;
             case "x2":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "".concat(res.display.value, "^2");
-                    res.display.value = Math.pow(res.display.value, 2);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "".concat(display.value, "^2");
+                    display.value = String(Math.pow(Number(display.value), 2));
+                }
+                break;
+            case "x3":
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "".concat(display.value, "^3");
+                    display.value = String(Math.pow(Number(display.value), 3));
+                }
+                break;
+            case "xy":
+                if (check(display.value, "^")) {
+                    display.value += "^";
+                }
+                break;
+            case "2x":
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "2^".concat(display.value);
+                    display.value = String(Math.pow(2, Number(display.value)));
                 }
                 break;
             case "10x":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "10^".concat(res.display.value);
-                    res.display.value = Math.pow(10, res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "10^".concat(display.value);
+                    display.value = String(Math.pow(10, Number(display.value)));
+                }
+                break;
+            case "ex":
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "".concat(Math.E, "^").concat(display.value);
+                    display.value = String(Math.pow(Math.E, Number(display.value)));
                 }
                 break;
             case "1/x":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "1/".concat(res.display.value);
-                    res.display.value = 1 / res.display.value;
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "1/".concat(display.value);
+                    display.value = String(1 / Number(display.value));
                 }
                 break;
             case "2n":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "2^".concat(res.display.value);
-                    res.display.value = Math.pow(2, res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "2^".concat(display.value);
+                    display.value = String(Math.pow(2, Number(display.value)));
                 }
                 break;
             case "log":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "log(".concat(res.display.value, ")");
-                    // (res.display).value = Math.log10((res.display).value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "log(".concat(display.value, ")");
+                    display.value = String(Math.LOG10E);
+                }
+                break;
+            case "3x":
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "3^".concat(display.value);
+                    display.value = String(Math.pow(3, Number(display.value)));
                 }
                 break;
             case "ln":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.s_display.value = "ln(".concat(res.display.value, ")");
-                    res.display.value = Math.log(res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    s_display.value = "ln(".concat(display.value, ")");
+                    display.value = String(Math.log(Number(display.value)));
                 }
                 break;
             case "exp":
-                if (res.display.value !== "0" && res.display.value !== "") {
-                    res.display.value = Math.exp(res.display.value);
+                if (display.value !== "0" && display.value !== "") {
+                    display.value = String(Math.exp(Number(display.value)));
                 }
                 break;
             case "mod":
-                if (res.display.value.value !== "0" && res.display.value.value !== "") {
-                    res.display.value.value += "%";
+                if (check(display.value, "%")) {
+                    display.value += "%";
                 }
                 break;
             case ".":
-                if (res.display.value == null || res.display.value == "0") {
-                    res.display.value = ".";
+                if (display.value == null || display.value == "0") {
+                    display.value = ".";
                 }
                 else {
-                    res.display.value += ".";
+                    display.value += ".";
                 }
                 break;
             default:
-                res.display.value += e.target.innerText;
+                display.value += e.target.innerText;
                 break;
         }
     });

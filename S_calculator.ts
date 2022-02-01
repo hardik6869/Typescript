@@ -1,91 +1,89 @@
-interface Resource {
-  display: any;
-  s_display: any;
-  item: any;
-  buttons: any;
-}
-
-var res = <Resource>{};
-
 interface ArrayConstructor {
   from(arrayLike: any, mapFn?: undefined, thisArg?: undefined): Array<any>;
 }
 
-res.display = document.getElementById("display") as HTMLInputElement;
-res.s_display = document.getElementById("sub_display") as HTMLInputElement;
-
+const display = <HTMLInputElement>document.getElementById("display");
+const s_display = <HTMLInputElement>document.getElementById("sub_display");
 let buttons = Array.from(document.getElementsByClassName("btn"));
 let btn_sci = Array.from(document.getElementsByClassName("trigino_&_Fun"));
 let memory_btn = Array.from(document.getElementsByClassName("btn-top"));
 
+let square = document.getElementById("square")! as HTMLInputElement;
+let sq_root = document.getElementById("sq_root")! as HTMLInputElement;
+let x_root_y = document.getElementById("x_root_y")! as HTMLInputElement;
+let ten_x = document.getElementById("ten_x")! as HTMLInputElement;
+let log = document.getElementById("log")! as HTMLInputElement;
+
 // Functions
 
-let arr_list: any[] = [];
-function memory(m_fun: string, data: any): any {
+let arr_list: Number[] = [];
+function memory(m_fun: string, data: Number): void {
   if (m_fun == "M+") {
     arr_list.push(data);
-    res.display.value = data;
-    res.s_display.value = `M+(${res.display.value})`;
+    display.value = String(data);
+    s_display.value = `M+(${display.value})`;
   } else if (m_fun == "M-") {
     arr_list.push(eval("-" + data));
-    res.display.value = data;
-    res.s_display.value = `M-(${res.display.value})`;
+    display.value = String(data);
+    s_display.value = `M-(${display.value})`;
   } else if (m_fun == "MS") {
     arr_list.push(data);
-    res.display.value = arr_list;
-    res.s_display.value = `MS(${res.display.value})`;
+    display.value = String(arr_list);
+    s_display.value = `MS(${display.value})`;
   } else if (m_fun == "MC") {
     arr_list = [];
-    res.display.value = arr_list;
-    res.s_display.value = `MC`;
+    display.value = String(arr_list);
+    s_display.value = `MC`;
   } else {
     let add_data = 0;
-    arr_list.forEach((data: any) => {
-      add_data += data;
+    arr_list.forEach((data) => {
+      add_data += Number(data);
     });
-    res.display.value = add_data;
-    res.s_display.value = `MR(${res.display.value})`;
+    display.value = String(add_data);
+    s_display.value = `MR(${display.value})`;
   }
 }
 
-const deg_rad = () => {
-  let val: any = document.getElementById("deg");
-  let convert = res.display.value;
-  if (res.display.value !== "0" && res.display.value !== "") {
+const deg_rad = (): void => {
+  let val = <HTMLElement>document.getElementById("deg");
+  let convert = display.value;
+  if (display.value !== "0" && display.value !== "") {
     if (val.innerText == "DEG") {
-      res.s_display.value = `Deg (${res.display.value})`;
+      s_display.value = `Deg (${display.value})`;
       val.innerText = "RAD";
-      res.display.value = convert * (180 / Math.PI);
+      display.value = String(Number(convert) * (180 / Math.PI));
     } else {
       val.innerText = "DEG";
-      res.s_display.value = `Rad (${res.display.value})`;
-      res.display.value = convert * (Math.PI / 180);
+      s_display.value = `Rad (${display.value})`;
+      display.value = String(Number(convert) * (Math.PI / 180));
     }
   }
 };
 
-// let valid: boolean = true;
-// const More_features = () => {
-//   if (valid) {
-//       (buttons.innerHTML= "x<sup>3</sup>"),
-//       (randomvar.innerHTML = "<sup>3</sup>√x"),
-//       (randompow.innerHTML = "2<sup>x</sup>"),
-//       (randomlog.innerHTML = "e<sup>x</sup>");
-//     valid = false;
-//   } else {
-//     valid = true;
-//       (random.innerHTML = "x<sup>2</sup>"),
-//       (randomvar.innerHTML = "<sup>2</sup>√x"),
-//       (randompow.innerHTML = "10<sup>x</sup>"),
-//       (randomlog.innerHTML = "ln");
-//   }
-// }
-
-const Review = () => {
-  res.display.value = res.s_display.value;
+let valid: boolean = true;
+const More_features = () => {
+  if (valid) {
+    square.innerHTML = "x<sup>3</sup>";
+    sq_root.innerHTML = "<sup>3</sup>√x";
+    x_root_y.innerHTML = "2<sup>x</sup>";
+    ten_x.innerHTML = "e<sup>x</sup>";
+    log.innerHTML = "3<sup>x</sup>";
+    valid = false;
+  } else {
+    valid = true;
+    square.innerHTML = "x<sup>2</sup>";
+    sq_root.innerHTML = "<sup>2</sup>√x";
+    x_root_y.innerHTML = "x<sup>y</sup>";
+    ten_x.innerHTML = "10<sup>x</sup>";
+    log.innerHTML = "log";
+  }
 };
 
-const factorial = (num: any) => {
+const Review = () => {
+  display.value = s_display.value;
+};
+
+const factorial = (num: Number) => {
   let fact = 1;
   for (let i = 1; i <= num; i++) {
     fact *= i;
@@ -94,17 +92,29 @@ const factorial = (num: any) => {
 };
 
 const del = () => {
-  res.s_display.value = "";
-  let dele = res.display.value;
-  res.display.value = dele.substring(0, dele.length - 1);
+  s_display.value = "";
+  let dele = display.value;
+  display.value = dele.substring(0, dele.length - 1);
 };
 
-const check = (val: any) => {
+const check = (val: String, eve: string) => {
   let isvalid;
-  let char_list: any = ["+", "-", "/", "*", "%", "!", "^", "|x|","π","e"];
-  let last_char: any = val.charAt(val.length - 1);
-  if (res.display.value !== "0" && res.display.value !== "") {
-    if (char_list.includes(last_char)) {
+  let cur_Value = display.value;
+  let last_char: string = cur_Value[cur_Value.length - 1];
+  if (display.value !== "0" && display.value !== "") {
+    if (
+      last_char === "+" ||
+      last_char === "-" ||
+      last_char === "/" ||
+      last_char === "*" ||
+      last_char === "%" ||
+      last_char === "!" ||
+      last_char === "^" ||
+      last_char === "e" ||
+      last_char === "e"
+    ) {
+      let assign = cur_Value.substring(0, cur_Value.length - 1) + eve;
+      display.value = assign;
       isvalid = false;
     } else {
       isvalid = true;
@@ -117,62 +127,63 @@ const check = (val: any) => {
 
 memory_btn.map((value) => {
   value.addEventListener("click", (e: any) => {
-    switch (e.target.innerText) {
-      case "MC":
-        console.log("MC");
-        memory("MC", eval(res.display.value));
-        break;
-      case "MR":
-        memory("MR", eval(res.display.value));
-        break;
-      case "M+":
-        memory("M+", eval(res.display.value));
-        break;
-      case "M-":
-        memory("M-", eval(res.display.value));
-        break;
-      case "MS":
-        memory("MS", eval(res.display.value));
-        break;
+    if (display.value !== "0" && display.value !== "") {
+      switch (e.target.innerText) {
+        case "MC":
+          memory("MC", eval(display.value));
+          break;
+        case "MR":
+          memory("MR", eval(display.value));
+          break;
+        case "M+":
+          memory("M+", eval(display.value));
+          break;
+        case "M-":
+          memory("M-", eval(display.value));
+          break;
+        case "MS":
+          memory("MS", eval(display.value));
+          break;
+      }
     }
   });
 });
 
 btn_sci.map((value) => {
   value.addEventListener("click", (e: any) => {
-    if (res.display.value !== "0" && res.display.value !== "") {
+    if (display.value !== "0" && display.value !== "") {
       switch (e.target.innerText) {
         case "sin":
-          res.s_display.value = `sin(${res.display.value})`;
-          res.display.value = Math.sin(res.display.value);
+          s_display.value = `sin(${display.value})`;
+          display.value = String(Math.sin(Number(display.value)));
           break;
         case "cos":
-          res.s_display.value = `cos(${res.display.value})`;
-          res.display.value = Math.cos(res.display.value);
+          s_display.value = `cos(${display.value})`;
+          display.value = String(Math.cos(Number(display.value)));
           break;
         case "tan":
-          res.s_display.value = `tan(${res.display.value})`;
-          res.display.value = Math.tan(res.display.value);
+          s_display.value = `tan(${display.value})`;
+          display.value = String(Math.tan(Number(display.value)));
           break;
         case "asin":
-          res.s_display.value = `asin(${res.display.value})`;
-          res.display.value = Math.asin(res.display.value);
+          s_display.value = `asin(${display.value})`;
+          display.value = String(Math.asin(Number(display.value)));
           break;
         case "atan":
-          res.s_display.value = `atan(${res.display.value})`;
-          res.display.value = Math.atan(res.display.value);
+          s_display.value = `atan(${display.value})`;
+          display.value = String(Math.atan(Number(display.value)));
           break;
         case "ceil":
-          res.s_display.value = `ceil(${res.display.value})`;
-          res.display.value = Math.ceil(res.display.value);
+          s_display.value = `ceil(${display.value})`;
+          display.value = String(Math.ceil(Number(display.value)));
           break;
         case "floor":
-          res.s_display.value = `floor(${res.display.value})`;
-          res.display.value = Math.floor(res.display.value);
+          s_display.value = `floor(${display.value})`;
+          display.value = String(Math.floor(Number(display.value)));
           break;
         case "round":
-          res.s_display.value = `round(${res.display.value})`;
-          res.display.value = Math.round(res.display.value);
+          s_display.value = `round(${display.value})`;
+          display.value = String(Math.round(Number(display.value)));
           break;
       }
     }
@@ -183,182 +194,214 @@ buttons.map((value) => {
   value.addEventListener("click", (e: any) => {
     switch (e.target.innerText) {
       case "=":
-        res.s_display.value = `${res.display.value}`;
-        if (res.display.value.charAt(res.display.value.length - 1) == "!") {
-          res.display.value = res.display.value.substring(
-            0,
-            res.display.value.length - 1
-          );
-          res.display.value.value = factorial(res.display.value);
+        s_display.value = `${display.value}`;
+        if (display.value.charAt(display.value.length - 1) == "!") {
+          display.value = display.value.substring(0, display.value.length - 1);
+          display.value = String(factorial(Number(display.value)));
         }
-        if (res.display.value.includes("^")) {
-          let sign = res.display.value.indexOf("^");
-          let x = res.display.value.substring(0, sign);
-          let y = res.display.value.substring(
+        if (display.value.includes("^")) {
+          let sign = display.value.indexOf("^");
+          let x: String = display.value.substring(0, sign);
+          let y: string = display.value.substring(
             sign + 1,
-            res.display.value.length
+            display.value.length
           );
-          res.display.value = Math.pow(x, y);
+          display.value = String(Math.pow(Number(x), Number(y)));
         }
-        res.display.value = eval(res.display.value);
+        display.value = eval(display.value);
         break;
 
       case "F-E":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `F-E (${res.display.value})`;
-          let num = parseFloat(res.display.value);
-          res.display.value = num.toExponential();
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `F-E (${display.value})`;
+          let num = parseFloat(display.value);
+          display.value = num.toExponential();
         }
         break;
 
       case "C":
-        res.s_display.value = "";
-        res.display.value = "";
+        s_display.value = "";
+        display.value = "";
         break;
 
       case "n!":
-        if (check(res.display.value.innerHTML)) {
-          res.display.value += "!";
-        }
-        break;
-
-      case "xy":
-        if (check(res.display.value)) {
-          res.display.value += "^";
+        if (check(display.value, "!")) {
+          display.value += "!";
         }
         break;
 
       case "^":
-        if (check(res.display.value)) {
-          res.display.value = res.display.value.slice(0, -1);
+        if (check(display.value, "^")) {
+          display.value = display.value.slice(0, -1);
         }
         break;
 
       case "+":
-        if (check(res.display.value)) {
-          res.display.value = res.display.value + "+";
+        if (check(display.value, e.target.innerText)) {
+          display.value = display.value + "+";
         }
         break;
 
       case "-":
-        if (check(res.display.value)) {
-          res.display.value = res.display.value + "-";
+        if (check(display.value, e.target.innerText)) {
+          display.value = display.value + "-";
         }
         break;
 
       case "×":
-        if (check(res.display.value)) {
-          res.display.value = res.display.value + "*";
+        if (check(display.value, "*")) {
+          display.value = display.value + "*";
         }
         break;
 
       case "÷":
-        if (check(res.display.value)) {
-          res.display.value = res.display.value + "/";
+        if (check(display.value, "/")) {
+          display.value = display.value + "/";
         }
         break;
 
       case "+/-":
-        if (res.display.value > 0) {
-          res.display.value = `-${res.display.value}`;
+        if (Number(display.value) > 0) {
+          display.value = `-${display.value}`;
         } else {
-          res.display.value = Math.abs(res.display.value);
+          display.value = String(Math.abs(Number(display.value)));
         }
         break;
 
       case "π":
-        if (check(res.display.value)) {
-        res.s_display.value = `${res.display.value}×π`;
-        res.display.value = res.display.value * Math.PI;
+        if (check(display.value, "π")) {
+          s_display.value = `${display.value}×π`;
+          display.value = String(Number(display.value) * Math.PI);
         }
         break;
 
       case "e":
-        if (check(res.display.value)) {
-        res.s_display.value = `${res.display.value}×e`;
-        res.display.value = res.display.value * Math.E;
+        if (check(display.value, "e")) {
+          s_display.value = `${display.value}×e`;
+          display.value = String(Number(display.value) * Math.E);
         }
         break;
 
       case "|x|":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `| ${res.display.value} | `;
-          res.display.value = Math.abs(res.display.value);
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `| ${display.value} | `;
+          display.value = String(Math.abs(Number(display.value)));
           ("");
         }
         break;
 
       case "2√x":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `2√x${res.display.value}`;
-          res.display.value = Math.sqrt(res.display.value);
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `2√x${display.value}`;
+          display.value = String(Math.sqrt(Number(display.value)));
+        }
+        break;
+
+      case "3√x":
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `3√${display.value}`;
+          display.value = String(Math.pow(Number(display.value), 1 / 3));
         }
         break;
 
       case "x2":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `${res.display.value}^2`;
-          res.display.value = res.display.value ** 2;
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `${display.value}^2`;
+          display.value = String(Number(display.value) ** 2);
+        }
+        break;
+
+      case "x3":
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `${display.value}^3`;
+          display.value = String(Number(display.value) ** 3);
+        }
+        break;
+
+      case "xy":
+        if (check(display.value, "^")) {
+          display.value += "^";
+        }
+        break;
+
+      case "2x":
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `2^${display.value}`;
+          display.value = String(2 ** Number(display.value));
         }
         break;
 
       case "10x":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `10^${res.display.value}`;
-          res.display.value = 10 ** res.display.value;
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `10^${display.value}`;
+          display.value = String(10 ** Number(display.value));
+        }
+        break;
+
+      case "ex":
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `${Math.E}^${display.value}`;
+          display.value = String(Math.E ** Number(display.value));
         }
         break;
 
       case "1/x":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `1/${res.display.value}`;
-          res.display.value = 1 / res.display.value;
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `1/${display.value}`;
+          display.value = String(1 / Number(display.value));
         }
         break;
 
       case "2n":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `2^${res.display.value}`;
-          res.display.value = 2 ** res.display.value;
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `2^${display.value}`;
+          display.value = String(2 ** Number(display.value));
         }
         break;
 
       case "log":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `log(${res.display.value})`;
-          // (res.display).value = Math.log10((res.display).value);
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `log(${display.value})`;
+          display.value = String(Math.LOG10E);
         }
         break;
+      
+        case "3x":
+          if (display.value !== "0" && display.value !== "") {
+            s_display.value = `3^${display.value}`;
+            display.value = String(3 ** Number(display.value));
+          }
+          break;
 
       case "ln":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.s_display.value = `ln(${res.display.value})`;
-          res.display.value = Math.log(res.display.value);
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `ln(${display.value})`;
+          display.value = String(Math.log(Number(display.value)));
         }
         break;
 
       case "exp":
-        if (res.display.value !== "0" && res.display.value !== "") {
-          res.display.value = Math.exp(res.display.value);
+        if (display.value !== "0" && display.value !== "") {
+          display.value = String(Math.exp(Number(display.value)));
         }
         break;
 
       case "mod":
-        if (res.display.value.value !== "0" && res.display.value.value !== "") {
-          res.display.value.value += "%";
+        if (check(display.value, "%")) {
+          display.value += "%";
         }
         break;
 
       case ".":
-        if (res.display.value == null || res.display.value == "0") {
-          res.display.value = ".";
+        if (display.value == null || display.value == "0") {
+          display.value = ".";
         } else {
-          res.display.value += ".";
+          display.value += ".";
         }
         break;
 
       default:
-        res.display.value += e.target.innerText;
+        display.value += e.target.innerText;
         break;
     }
   });
