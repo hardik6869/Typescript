@@ -365,13 +365,13 @@ buttons.map((value) => {
           display.value = String(Math.LOG10E);
         }
         break;
-      
-        case "3x":
-          if (display.value !== "0" && display.value !== "") {
-            s_display.value = `3^${display.value}`;
-            display.value = String(3 ** Number(display.value));
-          }
-          break;
+
+      case "3x":
+        if (display.value !== "0" && display.value !== "") {
+          s_display.value = `3^${display.value}`;
+          display.value = String(3 ** Number(display.value));
+        }
+        break;
 
       case "ln":
         if (display.value !== "0" && display.value !== "") {
