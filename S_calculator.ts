@@ -1,18 +1,33 @@
-interface ArrayConstructor {
-  from(arrayLike: any, mapFn?: undefined, thisArg?: undefined): Array<any>;
-}
-
-const display = <HTMLInputElement>document.getElementById("display");
-const s_display = <HTMLInputElement>document.getElementById("sub_display");
-let buttons = Array.from(document.getElementsByClassName("btn"));
-let btn_sci = Array.from(document.getElementsByClassName("trigino_&_Fun"));
-let memory_btn = Array.from(document.getElementsByClassName("btn-top"));
-
-let square = document.getElementById("square")! as HTMLInputElement;
-let sq_root = document.getElementById("sq_root")! as HTMLInputElement;
-let x_root_y = document.getElementById("x_root_y")! as HTMLInputElement;
-let ten_x = document.getElementById("ten_x")! as HTMLInputElement;
-let log = document.getElementById("log")! as HTMLInputElement;
+const display: HTMLInputElement = document.getElementById(
+  "display"
+) as HTMLInputElement;
+const s_display: HTMLInputElement = document.getElementById(
+  "sub_display"
+) as HTMLInputElement;
+let buttons: HTMLButtonElement[] = Array.from(
+  document.getElementsByClassName("btn")
+) as HTMLButtonElement[];
+let btn_sci: HTMLButtonElement[] = Array.from(
+  document.getElementsByClassName("trigino_&_Fun")
+) as HTMLButtonElement[];
+let memory_btn: HTMLButtonElement[] = Array.from(
+  document.getElementsByClassName("btn-top")
+) as HTMLButtonElement[];
+let square: HTMLButtonElement = document.getElementById(
+  "square"
+)! as HTMLButtonElement;
+let sq_root: HTMLButtonElement = document.getElementById(
+  "sq_root"
+)! as HTMLButtonElement;
+let x_root_y: HTMLButtonElement = document.getElementById(
+  "x_root_y"
+)! as HTMLButtonElement;
+let ten_x: HTMLButtonElement = document.getElementById(
+  "ten_x"
+)! as HTMLButtonElement;
+let log: HTMLButtonElement = document.getElementById(
+  "log"
+)! as HTMLButtonElement;
 
 // Functions
 
@@ -35,7 +50,7 @@ function memory(m_fun: string, data: Number): void {
     display.value = String(arr_list);
     s_display.value = `MC`;
   } else {
-    let add_data = 0;
+    let add_data: number = 0;
     arr_list.forEach((data) => {
       add_data += Number(data);
     });
@@ -45,8 +60,8 @@ function memory(m_fun: string, data: Number): void {
 }
 
 const deg_rad = (): void => {
-  let val = <HTMLElement>document.getElementById("deg");
-  let convert = display.value;
+  let val: HTMLElement = <HTMLElement>document.getElementById("deg");
+  let convert: string = display.value;
   if (display.value !== "0" && display.value !== "") {
     if (val.innerText == "DEG") {
       s_display.value = `Deg (${display.value})`;
@@ -61,7 +76,7 @@ const deg_rad = (): void => {
 };
 
 let valid: boolean = true;
-const More_features = () => {
+const More_features = (): void => {
   if (valid) {
     square.innerHTML = "x<sup>3</sup>";
     sq_root.innerHTML = "<sup>3</sup>√x";
@@ -79,27 +94,27 @@ const More_features = () => {
   }
 };
 
-const Review = () => {
+const Review = (): void => {
   display.value = s_display.value;
 };
 
-const factorial = (num: Number) => {
-  let fact = 1;
+const factorial = (num: Number): Number => {
+  let fact: number = 1;
   for (let i = 1; i <= num; i++) {
-    fact *= i;
+    fact = fact * i;
   }
   return fact;
 };
 
-const del = () => {
+const del = (): void => {
   s_display.value = "";
-  let dele = display.value;
+  let dele: string = display.value;
   display.value = dele.substring(0, dele.length - 1);
 };
 
-const check = (val: String, eve: string) => {
-  let isvalid;
-  let cur_Value = display.value;
+const check = (val: String, eve: string): boolean | undefined => {
+  let isvalid: boolean;
+  let cur_Value: string = display.value;
   let last_char: string = cur_Value[cur_Value.length - 1];
   if (display.value !== "0" && display.value !== "") {
     if (
@@ -111,9 +126,9 @@ const check = (val: String, eve: string) => {
       last_char === "!" ||
       last_char === "^" ||
       last_char === "e" ||
-      last_char === "e"
+      last_char === "|x|"
     ) {
-      let assign = cur_Value.substring(0, cur_Value.length - 1) + eve;
+      let assign: string = cur_Value.substring(0, cur_Value.length - 1) + eve;
       display.value = assign;
       isvalid = false;
     } else {
@@ -125,34 +140,34 @@ const check = (val: String, eve: string) => {
 
 // Mapping a buttons and perform particuler button task
 
-memory_btn.map((value) => {
-  value.addEventListener("click", (e: any) => {
+memory_btn.map((value: HTMLButtonElement): void => {
+  value.addEventListener("click", (e: MouseEvent): void => {
     if (display.value !== "0" && display.value !== "") {
-      switch (e.target.innerText) {
+      switch ((<HTMLElement>e.target).innerText) {
         case "MC":
-          memory("MC", eval(display.value));
+          memory("MC", Number(display.value));
           break;
         case "MR":
-          memory("MR", eval(display.value));
+          memory("MR", Number(display.value));
           break;
         case "M+":
-          memory("M+", eval(display.value));
+          memory("M+", Number(display.value));
           break;
         case "M-":
-          memory("M-", eval(display.value));
+          memory("M-", Number(display.value));
           break;
         case "MS":
-          memory("MS", eval(display.value));
+          memory("MS", Number(display.value));
           break;
       }
     }
   });
 });
 
-btn_sci.map((value) => {
-  value.addEventListener("click", (e: any) => {
+btn_sci.map((value: HTMLButtonElement): void => {
+  value.addEventListener("click", (e: MouseEvent): void => {
     if (display.value !== "0" && display.value !== "") {
-      switch (e.target.innerText) {
+      switch ((<HTMLElement>e.target).innerText) {
         case "sin":
           s_display.value = `sin(${display.value})`;
           display.value = String(Math.sin(Number(display.value)));
@@ -190,9 +205,9 @@ btn_sci.map((value) => {
   });
 });
 
-buttons.map((value) => {
-  value.addEventListener("click", (e: any) => {
-    switch (e.target.innerText) {
+buttons.map((value: HTMLButtonElement): void => {
+  value.addEventListener("click", (e: MouseEvent): void => {
+    switch ((<HTMLElement>e.target).innerText) {
       case "=":
         s_display.value = `${display.value}`;
         if (display.value.charAt(display.value.length - 1) == "!") {
@@ -200,7 +215,7 @@ buttons.map((value) => {
           display.value = String(factorial(Number(display.value)));
         }
         if (display.value.includes("^")) {
-          let sign = display.value.indexOf("^");
+          let sign: number = display.value.indexOf("^");
           let x: String = display.value.substring(0, sign);
           let y: string = display.value.substring(
             sign + 1,
@@ -214,7 +229,7 @@ buttons.map((value) => {
       case "F-E":
         if (display.value !== "0" && display.value !== "") {
           s_display.value = `F-E (${display.value})`;
-          let num = parseFloat(display.value);
+          let num: number = parseFloat(display.value);
           display.value = num.toExponential();
         }
         break;
@@ -237,13 +252,13 @@ buttons.map((value) => {
         break;
 
       case "+":
-        if (check(display.value, e.target.innerText)) {
+        if (check(display.value, "+")) {
           display.value = display.value + "+";
         }
         break;
 
       case "-":
-        if (check(display.value, e.target.innerText)) {
+        if (check(display.value, "-")) {
           display.value = display.value + "-";
         }
         break;
@@ -283,7 +298,7 @@ buttons.map((value) => {
         break;
 
       case "|x|":
-        if (display.value !== "0" && display.value !== "") {
+        if (check(display.value, "|x|")) {
           s_display.value = `| ${display.value} | `;
           display.value = String(Math.abs(Number(display.value)));
           ("");
@@ -292,7 +307,7 @@ buttons.map((value) => {
 
       case "2√x":
         if (display.value !== "0" && display.value !== "") {
-          s_display.value = `2√x${display.value}`;
+          s_display.value = `2√${display.value}`;
           display.value = String(Math.sqrt(Number(display.value)));
         }
         break;
@@ -401,7 +416,7 @@ buttons.map((value) => {
         break;
 
       default:
-        display.value += e.target.innerText;
+        display.value += (<HTMLElement>e.target).innerText;
         break;
     }
   });
