@@ -1,3 +1,4 @@
+
 const display: HTMLInputElement = document.getElementById(
   "display"
 ) as HTMLInputElement;
@@ -31,8 +32,10 @@ let log: HTMLButtonElement = document.getElementById(
 
 // Functions
 
+type Action = "M+"|"M-"|"MS"|"MC"|"MR" ;
+
 let arr_list: Number[] = [];
-function memory(m_fun: string, data: Number): void {
+function memory(m_fun: Action, data: Number): void {
   if (m_fun == "M+") {
     arr_list.push(data);
     display.value = String(data);
@@ -145,19 +148,19 @@ memory_btn.map((value: HTMLButtonElement): void => {
     if (display.value !== "0" && display.value !== "") {
       switch ((<HTMLElement>e.target).innerText) {
         case "MC":
-          memory("MC", Number(display.value));
+          memory("MC", eval(display.value));
           break;
         case "MR":
-          memory("MR", Number(display.value));
+          memory("MR", eval(display.value));
           break;
         case "M+":
-          memory("M+", Number(display.value));
+          memory("M+", eval(display.value));
           break;
         case "M-":
-          memory("M-", Number(display.value));
+          memory("M-", eval(display.value));
           break;
         case "MS":
-          memory("MS", Number(display.value));
+          memory("MS", eval(display.value));
           break;
       }
     }

@@ -8,7 +8,6 @@ var sq_root = document.getElementById("sq_root");
 var x_root_y = document.getElementById("x_root_y");
 var ten_x = document.getElementById("ten_x");
 var log = document.getElementById("log");
-// Functions
 var arr_list = [];
 function memory(m_fun, data) {
     if (m_fun == "M+") {
@@ -103,7 +102,7 @@ var check = function (val, eve) {
             last_char === "!" ||
             last_char === "^" ||
             last_char === "e" ||
-            last_char === "e") {
+            last_char === "|x|") {
             var assign = cur_Value.substring(0, cur_Value.length - 1) + eve;
             display.value = assign;
             isvalid = false;
@@ -120,19 +119,19 @@ memory_btn.map(function (value) {
         if (display.value !== "0" && display.value !== "") {
             switch (e.target.innerText) {
                 case "MC":
-                    memory("MC", Number(display.value));
+                    memory("MC", eval(display.value));
                     break;
                 case "MR":
-                    memory("MR", Number(display.value));
+                    memory("MR", eval(display.value));
                     break;
                 case "M+":
-                    memory("M+", Number(display.value));
+                    memory("M+", eval(display.value));
                     break;
                 case "M-":
-                    memory("M-", Number(display.value));
+                    memory("M-", eval(display.value));
                     break;
                 case "MS":
-                    memory("MS", Number(display.value));
+                    memory("MS", eval(display.value));
                     break;
             }
         }
@@ -257,7 +256,7 @@ buttons.map(function (value) {
                 }
                 break;
             case "|x|":
-                if (display.value !== "0" && display.value !== "") {
+                if (check(display.value, "|x|")) {
                     s_display.value = "| ".concat(display.value, " | ");
                     display.value = String(Math.abs(Number(display.value)));
                     ("");
